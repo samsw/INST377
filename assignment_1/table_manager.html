@@ -5,6 +5,9 @@
 	div {
 		margin-bottom: 20px;
 	}
+	table, th, td {
+   border: 1px solid black;
+}
 </style>
 
 <!-- Data -->
@@ -201,15 +204,166 @@ var organizations = [
 <body>
 <!-- Feel free to add empty tags. Data shouldn't be here. -->
 	<div id="org_table"></div>
+	
+	
 
 <script>
 // outputs the first item of the organizations array. Just for testing.
 // console.log(organizations[0]); 
-console.log("test");
+//console.log("test");
 
 // Your JavaScript code goes here
 
+// get the reference for the body
+var body = document.getElementsByTagName("body")[0];
 
+//Header and paragraph creation
+var header = document.createElement("h1");
+var para = document.createElement("p");
+var header2 = document.createElement("h2");
+var h1Content = document.createTextNode("Assignment 1: Orginizations");
+var pContent = document.createTextNode("By: Sam Swanner");
+var h2Content = document.createTextNode("Summary of the Data:");
+header.appendChild(h1Content);
+para.appendChild(pContent);
+header2.appendChild(h2Content);
+body.appendChild(header);
+body.appendChild(para);
+body.appendChild(header2);
+ 
+// Table Creation
+var table = document.createElement("table");
+var tbody = document.createElement("tbody");
+ 
+// Column Headers
+var row = document.createElement("tr");
+var headerOrg = document.createElement("th");
+var headerVal = document.createElement("th");
+var contentHead = document.createTextNode("Questions:");
+var contentVal = document.createTextNode("Answers:");
+headerOrg.appendChild(contentHead);
+headerVal.appendChild(contentVal);
+row.appendChild(headerOrg);
+row.appendChild(headerVal);
+tbody.appendChild(row);
+ 
+//Analysis and Var Assignment
+
+//Add Row Equals Template
+function addRow(q = "",key = "",val = "")
+{
+var row = document.createElement("tr");
+var cellQ = document.createElement("td")
+var cellA = document.createElement("td")
+var contentQ = document.createTextNode(q)
+var count = 0;
+for (dict of organizations)
+{
+	if (dict[key] == val)
+	{
+	count += 1;
+
+	}
+}
+var contentA = document.createTextNode(count);
+cellQ.appendChild(contentQ);
+cellA.appendChild(contentA);
+row.appendChild(cellQ);
+row.appendChild(cellA);
+tbody.appendChild(row);
+}
+
+//How many non-profit organizations are listed?
+addRow("How many non-profit organizations are listed?","Organization Type","Nonprofit");
+
+//How many organizations are less than 10 years old?
+var row = document.createElement("tr");
+var cellQ = document.createElement("td")
+var cellA = document.createElement("td")
+var contentQ = document.createTextNode("How many organizations are less than 10 years old?")
+var youngOrgCount = 0;
+for (dict of organizations)
+{
+	if (dict["Founding Year"] > 2008)
+	{
+	youngOrgCount += 1;
+
+	}
+}
+var contentA = document.createTextNode(youngOrgCount);
+cellQ.appendChild(contentQ);
+cellA.appendChild(contentA);
+row.appendChild(cellQ);
+row.appendChild(cellA);
+tbody.appendChild(row);
+
+//How many of these organizations are North American?
+addRow("How many of these organizations are North American?","Region","North America");
+
+//How many organizations used the Transportation type of data?
+var row = document.createElement("tr");
+var cellQ = document.createElement("td")
+var cellA = document.createElement("td")
+var contentQ = document.createTextNode("How many organizations used the Transportation type of data?")
+var transpcount = 0;
+for (dict of organizations)
+{
+	var dataTypes = dict["Type of Data Used"];
+	var dataStr = String(dataTypes);
+	var pattern = /Transportation/;
+	var result = pattern.test(dataStr);
+	if (result == true )
+	{
+	transpcount += 1;
+
+	}
+}
+var contentA = document.createTextNode(transpcount);
+cellQ.appendChild(contentQ);
+cellA.appendChild(contentA);
+row.appendChild(cellQ);
+row.appendChild(cellA);
+tbody.appendChild(row);
+
+//Custom Question: What is the average size of IT organizations?
+var row = document.createElement("tr");
+var cellQ = document.createElement("td")
+var cellA = document.createElement("td")
+var contentQ = document.createTextNode("What is the average size of IT organizations?")
+var avgSize = 0;
+var sizes = 0;
+var orgCount = 0;
+for (dict of organizations)
+{
+	var sector = String(dict["Sectors"]);
+	var pattern = /^IT/;
+	if (pattern.test(sector) == true)
+	{
+		orgCount += 1;
+		if(dict["Size"] == "1 to 10")
+		{
+			sizes += 5;
+		
+		}
+		if(dict["Size"] == "1000+")
+		{
+			sizes += 1000;
+		
+		}
+	}
+	
+}
+avgSize = sizes/orgCount;
+var contentA = document.createTextNode(avgSize + " people");
+cellQ.appendChild(contentQ);
+cellA.appendChild(contentA);
+row.appendChild(cellQ);
+row.appendChild(cellA);
+tbody.appendChild(row);
+ 
+//Creation of the table
+table.appendChild(tbody);
+body.appendChild(table);
 </script>
 
 </body>
